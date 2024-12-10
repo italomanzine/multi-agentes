@@ -1,51 +1,37 @@
-// Agent farmer_agent
+// Agente farmer_agent
 
-/* Initial beliefs */
-+role(farmer).
-+field_status(ok).
+/* Crenças iniciais */
+papel(agricultor).
+status_campo(ok).
 
-/* Initial goals */
-!start.
+/* Objetivos iniciais */
+!iniciar.
 
-/* Plans */
-+!start : true
-    <- .print("Farmer agent started.");
-       !manage_farm.
+/* Planos */
++!iniciar : true
+    <- .print("Agente agricultor iniciado");
+       !gerenciar_fazenda.
 
-+!manage_farm : true
-    <- !check_sensors;
-       !make_decisions;
++!gerenciar_fazenda : temperatura(T)
+    <- .print("Gerenciando a fazenda...");
+       !tomar_decisoes(T);
        .wait(5000);
-       !manage_farm.
+       !gerenciar_fazenda.
 
-+!check_sensors : true
-    <- .print("Checking sensors...");
-       ?temperature(T);
-       .print("Current temperature:", T).
++!gerenciar_fazenda : true
+    <- .wait(5000);
+       !gerenciar_fazenda.
 
-+!make_decisions : true
-    <- temperature(T) &
-       T > 30
-       <- .print("Temperature is high. Starting irrigation.");
-          .broadcast(tell, start_irrigation);
-          -+field_status(irrigating).
-       ;  .print("Temperature is normal.");.
++!tomar_decisoes(T) : T > 30
+        <- .print("Temperatura alta. Iniciando irrigação.");
+           .broadcast(tell, iniciar_irrigacao);
+           -+status_campo(irrigando).
 
-+temperature(_).
-
-+message(sensor, tell, temperature(T))
-    <- .print("Received temperature from sensor:", T);
-       -+temperature(T).
-
-+message(sensor, tell, humidity(H))
-    <- .print("Received humidity from sensor:", H);
-       -+humidity(H).
++!tomar_decisoes(T) : T <= 30
+        <- .print("Temperatura normal. Parando irrigação.");
+           .broadcast(tell, parar_irrigacao);
+           -+status_campo(irrigando);
+           +status_campo(ok).
 
 +message(animal, tell, status(S))
-    <- .print("Received status from animal:", S).
-
-+!stop_irrigation : true
-    <- .print("Stopping irrigation.");
-       .broadcast(tell, stop_irrigation);
-       -field_status(irrigating);
-       +field_status(ok).
+    <- .print("Recebido status do animal: ", S).

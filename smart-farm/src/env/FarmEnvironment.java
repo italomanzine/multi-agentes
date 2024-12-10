@@ -1,40 +1,40 @@
-// Artifact code for FarmEnvironment
+// Código do artefato FarmEnvironment
 
 package env;
 
 import cartago.*;
 
 public class FarmEnvironment extends Artifact {
-    private double temperature = 25.0; // Initial temperature in Celsius
+    private double temperatura = 25.0; // Temperatura inicial em Celsius
 
     void init() {
-        defineObsProperty("weather", "sunny");
-        defineObsProperty("temperature", temperature);
+        defineObsProperty("clima", "ensolarado");
+        defineObsProperty("temperatura", temperatura);
     }
 
     @OPERATION
-    void readTemperature(OpFeedbackParam<Double> temp) {
-        temp.set(temperature);
+    void lerTemperatura(OpFeedbackParam<Double> temp) {
+        temp.set(temperatura);
     }
 
     @OPERATION
-    void changeWeather(String newWeather) {
-        ObsProperty prop = getObsProperty("weather");
-        prop.updateValue(newWeather);
-        signal("weatherChanged", newWeather);
+    void alterarClima(String novoClima) {
+        ObsProperty prop = getObsProperty("clima");
+        prop.updateValue(novoClima);
+        signal("climaAlterado", novoClima);
     }
 
     @OPERATION
-    void increaseTemperature(double increment) {
-        temperature += increment;
-        getObsProperty("temperature").updateValue(temperature);
-        signal("temperatureChanged", temperature);
+    void aumentarTemperatura(double incremento) {
+        temperatura += incremento;
+        getObsProperty("temperatura").updateValue(temperatura);
+        signal("temperaturaAlterada", temperatura);
     }
 
     @OPERATION
-    void decreaseTemperature(double decrement) {
-        temperature -= decrement;
-        getObsProperty("temperature").updateValue(temperature);
-        signal("temperatureChanged", temperature);
+    void diminuirTemperatura(double decremento) {
+        temperatura -= decremento;
+        getObsProperty("temperatura").updateValue(temperatura);
+        signal("temperaturaAlterada", temperatura);
     }
 }

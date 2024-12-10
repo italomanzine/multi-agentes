@@ -1,27 +1,34 @@
-// Agent animal_agent
+// Agente animal_agent
 
-/* Initial beliefs */
-+role(animal).
-+status(healthy).
+/* Crenças iniciais */
+papel(animal).
+status(saudavel).
 
-/* Initial goals */
-!start.
+/* Objetivos iniciais */
+!iniciar.
 
-/* Plans */
-+!start : true
-    <- .print("Animal agent started.");
-       !perform_activities.
+/* Planos */
++!iniciar : true
+    <- .print("Agente animal iniciado.");
+       !realizar_atividades.
 
-+!perform_activities : true
-    <- .print("Animal is grazing.");
++!realizar_atividades : true
+    <- .print("Animal está pastando.");
        .wait(10000);
-       .print("Animal is resting.");
+       .print("Animal está descansando.");
        .wait(5000);
-       !perform_activities.
+       !realizar_atividades.
 
-+message(farmer, tell, start_irrigation)
-    <- .print("Received start irrigation signal.");
-       !move_to_shelter.
++message(agricultor, tell, iniciar_irrigacao)
+    <- .print("Recebida instrução para iniciar irrigação.");
+       !ir_para_abrigo.
 
-+!move_to_shelter : true
-    <- .print("Animal moving to shelter due to irrigation.");
++message(agricultor, tell, parar_irrigacao)
+    <- .print("Recebida instrução para parar irrigação.");
+       !voltar_pastagem.
+
++!ir_para_abrigo : true
+    <- .print("Animal indo para o abrigo devido à irrigação.").
+
++!voltar_pastagem : true
+    <- .print("Animal voltando para a pastagem após a irrigação.").

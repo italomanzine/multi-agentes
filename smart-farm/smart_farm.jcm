@@ -14,14 +14,32 @@
 
 mas smart_farm {
 
-    agent bob: sample_agent.asl {
-      focus: w.c1 
-    }
 
-    workspace w {
-      artifact c1: example.Counter(3) 
-    }
 
-    
+    agent agricultor:   farmer_agent.asl   
+    agent sensor:       sensor_agent.asl 
+    agent animal:       animal_agent.asl  
+
+    // teams:
+
+    //     equipe_fazenda {
+    //         org_model: org/farm_organisation.xml
+    //         players:
+    //             agricultor plays agricultor
+    //             sensor plays sensor
+    //             animal plays animal
+    //     }
+
+    // organisation o1: farm_organisation.xml
+
+
+    workspace farm{
+        agents: agricultor, sensor, animal
+
+    }
+    // environment:
+    //     classpath: ./build/classes/java/main
+    //     artifacts:
+    //         env: env.FarmEnvironment
 
 }

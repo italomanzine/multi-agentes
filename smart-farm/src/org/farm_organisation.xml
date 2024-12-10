@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <organisationSpecification xmlns="http://www.istf.de/istf">
     <groups>
-        <group id="farm_group">
+        <group id="grupo_fazenda">
             <roles>
-                <role id="farmer" multiplicity="1"/>
+                <role id="agricultor" multiplicity="1"/>
                 <role id="sensor" multiplicity="*"/>
                 <role id="animal" multiplicity="*"/>
             </roles>
         </group>
     </groups>
     <roles>
-        <role id="farmer"/>
+        <role id="agricultor"/>
         <role id="sensor"/>
         <role id="animal"/>
     </roles>

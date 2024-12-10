@@ -1,25 +1,20 @@
-// Agent sensor_agent
+// Agente sensor_agent
 
-/* Initial beliefs */
-+role(sensor).
-+sensor_type(temperature).
+/* Crenças iniciais */
+papel(sensor).
+status_sensor(ativo).
 
-/* Initial goals */
-!start.
+/* Objetivos iniciais */
+!monitorar.
 
-/* Plans */
-+!start : true
-    <- .print("Sensor agent started.");
-       !monitor_environment.
+/* Planos */
 
-+!monitor_environment : true
-    <- .print("Monitoring environment...");
-       !read_temperature;
++!monitorar : true
+    <- .print("Sensor ativo. Monitorando...");
+       !gerar_temperatura;
        .wait(5000);
-       !monitor_environment.
+       !monitorar.
 
-+!read_temperature : true
-    <- .my_name(Name);
-       env("FarmEnvironment").readTemperature(T);
-       .send(farmer, tell, temperature(T));
-       .print(Name, "sent temperature:", T).
++!gerar_temperatura : .random([20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40], T)
+    <- .print("Temperatura simulada: ", T);
+       .send(agricultor, tell, temperatura(T)).

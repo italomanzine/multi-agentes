@@ -1,20 +1,21 @@
-// Agent that tests 'sample_agent' in project smart_farm
+// Agent que testa 'farmer_agent', 'sensor_agent' e 'animal_agent' no projeto smart_farm
 
-// includes target agent to tests
-{ include("sample_agent.asl") }
+// Inclui os agentes a serem testados
+{ include("farmer_agent.asl") }
+{ include("sensor_agent.asl") }
+{ include("animal_agent.asl") }
 
-// includes test library
-{ include("tester_agent.asl") } // from JaCaMo
+// Inclui a biblioteca de teste
+{ include("tester_agent.asl") } // do JaCaMo
 
 @[test]
-+!test_start // test goal start of the agent. A belief 'started' should be added by goal start
-    <-  !start; // creates the goal and waits for its completion
-        !assert_true( started(_,_,_,_,_,_) ).
++!test_start
+    <-  !start;
+        !assert_true( started(_, _, _, _, _, _) ).
 
-
-// usual include for all JaCaMo agent
+// Inclusões padrão para todos os agentes JaCaMo
 //{ include("$jacamo/templates/common-cartago.asl") }
 //{ include("$jacamo/templates/common-moise.asl") }
 
-// uncomment the include below to have an agent compliant with its organisation
+// Descomente a inclusão abaixo para ter um agente conforme sua organização
 //{ include("$moise/asl/org-obedient.asl") }

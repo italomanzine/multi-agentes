@@ -1,0 +1,28 @@
+// Arquivo de configuração JaCaMo para o projeto smart-farm
+
+mas smart_farm {
+
+    infrastructure: Centralised
+
+    agents:
+
+        agricultor   agent_class:default_agent   agent_src:agt/farmer_agent.asl   team: equipe_fazenda
+        sensor       agent_class:default_agent   agent_src:agt/sensor_agent.asl   team: equipe_fazenda
+        animal       agent_class:default_agent   agent_src:agt/animal_agent.asl   team: equipe_fazenda
+
+    teams:
+
+        equipe_fazenda {
+            org_model: org/farm_organisation.xml
+            players:
+                agricultor plays agricultor
+                sensor plays sensor
+                animal plays animal
+        }
+
+    environment:
+        classpath: ./build/classes/java/main
+        artifacts:
+            env: env.FarmEnvironment
+
+}
