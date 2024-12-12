@@ -1,15 +1,18 @@
-// Código do artefato FarmEnvironment
+// FarmEnvironment.java
 
 package env;
 
 import cartago.*;
 
 public class FarmEnvironment extends Artifact {
+
     private double temperatura = 25.0; // Temperatura inicial em Celsius
 
     void init() {
         defineObsProperty("clima", "ensolarado");
         defineObsProperty("temperatura", temperatura);
+        defineObsProperty("umidade", 50.0);
+        defineObsProperty("luminosidade", "alta");
     }
 
     @OPERATION
@@ -18,10 +21,28 @@ public class FarmEnvironment extends Artifact {
     }
 
     @OPERATION
-    void alterarClima(String novoClima) {
-        ObsProperty prop = getObsProperty("clima");
-        prop.updateValue(novoClima);
-        signal("climaAlterado", novoClima);
+    void lerUmidade(OpFeedbackParam<Double> umid) {
+        double umidade = getObsProperty("umidade").doubleValue();
+        umid.set(umidade);
+    }
+
+    @OPERATION
+    void lerLuminosidade(OpFeedbackParam<String> lum) {
+        String luminosidade = getObsProperty("luminosidade").stringValue();
+        lum.set(luminosidade);
+    }
+
+    @OPERATION
+    void lerClima(OpFeedbackParam<String> clima) {
+        String currentClima = getObsProperty("clima").stringValue();
+        clima.set(currentClima);
+    }
+
+    @OPERATION
+    void alterarTemperatura(double novaTemperatura) {
+        temperatura = novaTemperatura;
+        getObsProperty("temperatura").updateValue(temperatura);
+        signal("temperaturaAlterada", temperatura);
     }
 
     @OPERATION
@@ -36,5 +57,17 @@ public class FarmEnvironment extends Artifact {
         temperatura -= decremento;
         getObsProperty("temperatura").updateValue(temperatura);
         signal("temperaturaAlterada", temperatura);
+    }
+
+    @OPERATION
+    void alterarClima(String novoClima) {
+        getObsProperty("clima").updateValue(novoClima);
+        signal("climaAlterado", novoClima);
+    }
+
+    @OPERATION
+    void alterarLuminosidade(String novaLuminosidade) {
+        getObsProperty("luminosidade").updateValue(novaLuminosidade);
+        signal("luminosidadeAlterada", novaLuminosidade);
     }
 }

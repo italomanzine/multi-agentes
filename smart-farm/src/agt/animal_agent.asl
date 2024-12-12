@@ -1,23 +1,43 @@
-// Agente animal_agent
+// animal_agent.asl
 
-/* Crenças iniciais */
+// Crenças iniciais
 papel(animal).
 status(saudavel).
 
-/* Objetivos iniciais */
+// Objetivos iniciais
 !iniciar.
 
-/* Planos */
+// Planos
 +!iniciar : true
     <- .print("Agente animal iniciado.");
+       !realizar_atividades;
+
++realizar_atividades
+    <- lerClima(Clima);
+       if (Clima == "irrigando") {
+           .print("Irrigação em andamento. Indo para o abrigo.");
+           !ir_para_abrigo;
+       } else {
+           .print("Tempo bom. Pastando no campo.");
+           .wait(5000);
+       };
        !realizar_atividades.
 
-+!realizar_atividades : true
-    <- .print("Animal está pastando.");
-       .wait(10000);
-       .print("Animal está descansando.");
-       .wait(5000);
-       !realizar_atividades.
++!ir_para_abrigo : true
+    <- .print("Animal indo para o abrigo.");
+       .wait(5000).
+
++!voltar_pastagem : true
+    <- .print("Animal voltando para a pastagem.");
+       .wait(5000).
+
++climaAlterado(NovoClima)
+    <- .print("Clima alterado para: ", NovoClima);
+       if (NovoClima == "irrigando") {
+           !ir_para_abrigo;
+       } else {
+           !voltar_pastagem;
+       }.
 
 +message(agricultor, tell, iniciar_irrigacao)
     <- .print("Recebida instrução para iniciar irrigação.");
@@ -27,8 +47,6 @@ status(saudavel).
     <- .print("Recebida instrução para parar irrigação.");
        !voltar_pastagem.
 
-+!ir_para_abrigo : true
-    <- .print("Animal indo para o abrigo devido à irrigação.").
-
-+!voltar_pastagem : true
-    <- .print("Animal voltando para a pastagem após a irrigação.").
+// Inclusão dos templates do Cartago e Moise, se necessário
+{ include("$jacamoJar/templates/common-cartago.asl") }
+{ include("$jacamoJar/templates/common-moise.asl") }

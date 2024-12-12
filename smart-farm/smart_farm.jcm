@@ -16,30 +16,28 @@ mas smart_farm {
 
 
 
-    agent agricultor:   farmer_agent.asl   
-    agent sensor:       sensor_agent.asl 
-    agent animal:       animal_agent.asl  
+    agent agricultor:   farmer_agent.asl   {
+        join: farm
+        focus: farm.farmEnv
+    }
 
-    // teams:
-
-    //     equipe_fazenda {
-    //         org_model: org/farm_organisation.xml
-    //         players:
-    //             agricultor plays agricultor
-    //             sensor plays sensor
-    //             animal plays animal
-    //     }
-
-    // organisation o1: farm_organisation.xml
-
+    agent sensor: sensor_agent.asl {
+        join: farm
+        focus: farm.farmEnv
+    }
+    
+    agent animal: animal_agent.asl {
+        join: farm
+        focus: farm.farmEnv
+    }
 
     workspace farm{
+        artifact farmEnv: env.FarmEnvironment{
+            focused-by: agricultor
+                        sensor
+                        animal
+        }
         agents: agricultor, sensor, animal
 
     }
-    // environment:
-    //     classpath: ./build/classes/java/main
-    //     artifacts:
-    //         env: env.FarmEnvironment
-
 }

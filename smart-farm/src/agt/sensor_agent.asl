@@ -1,20 +1,23 @@
-// Agente sensor_agent
+// sensor_agent.asl
 
-/* Crenças iniciais */
+// Crenças iniciais
 papel(sensor).
 status_sensor(ativo).
 
-/* Objetivos iniciais */
+// Objetivos iniciais
 !monitorar.
 
-/* Planos */
-
+// Planos
 +!monitorar : true
-    <- .print("Sensor ativo. Monitorando...");
-       !gerar_temperatura;
+    <- .print("Sensor ativo. Monitorando o ambiente...");
+       lerTemperatura(T);
+       lerUmidade(U);
+       lerLuminosidade(L);
+       .print("Dados coletados: Temperatura=", T, "°C, Umidade=", U, "%, Luminosidade=", L);
+       .send(agricultor, inform, dados_ambiente(T, U, L));
        .wait(5000);
        !monitorar.
 
-+!gerar_temperatura : .random([20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40], T)
-    <- .print("Temperatura simulada: ", T);
-       .send(agricultor, tell, temperatura(T)).
+// Inclusão dos templates do Cartago e Moise, se necessário
+{ include("$jacamoJar/templates/common-cartago.asl") }
+{ include("$jacamoJar/templates/common-moise.asl") }
