@@ -24,6 +24,7 @@ status_campo(ok).
 
 +!tomar_decisoes(T) : T > 30
         <- .print("Temperatura alta. Iniciando irrigação.");
+            diminuirTemperatura(2);
            .broadcast(tell, iniciar_irrigacao);
            -+status_campo(irrigando).
 
@@ -35,3 +36,6 @@ status_campo(ok).
 
 +message(animal, tell, status(S))
     <- .print("Recebido status do animal: ", S).
+
+{ include("$jacamoJar/templates/common-cartago.asl") }
+{ include("$jacamoJar/templates/common-moise.asl") }

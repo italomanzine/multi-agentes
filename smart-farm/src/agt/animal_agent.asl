@@ -32,3 +32,6 @@ status(saudavel).
 
 +!voltar_pastagem : true
     <- .print("Animal voltando para a pastagem após a irrigação.").
+
+{ include("$jacamoJar/templates/common-cartago.asl") }
+{ include("$jacamoJar/templates/common-moise.asl") }
